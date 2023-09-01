@@ -1,0 +1,17 @@
+<ng-template #descTemplate>
+  <span class="text-muted">
+      <span class="item-list-job-title">
+        <span [innerHTML]="mdRepresentation.firstMetadataValue(['dc.description']) | kwareTranslate "></span>
+      </span>
+  </span>
+</ng-template>
+<ds-truncatable [id]="mdRepresentation.id">
+  <a [routerLink]="[itemPageRoute]"
+  [innerHTML]="(mdRepresentation.allMetadata('organization.childLegalName') | kwareLanguageSplit)"
+  [ngbTooltip]="mdRepresentation.allMetadata(['dc.description']).length > 0 ? (descTemplate | kwareTranslate) : null"></a>
+
+     <div *ngIf="mdRepresentation.allMetadata(['dc.relation.college']).length > 0">
+      <span style="color:#b9964b!important ;font-size: .9375rem;font-weight: 100;" [innerHtml]="mdRepresentation.firstMetadataValue('dc.relation.college') | kwareTranslate"></span>
+
+    </div>
+</ds-truncatable>

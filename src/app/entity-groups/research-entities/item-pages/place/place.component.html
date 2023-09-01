@@ -1,0 +1,214 @@
+<ds-themed-results-back-button *ngIf="showBackButton | async" [back]="back"></ds-themed-results-back-button>
+<div class="d-flex flex-row">
+  <ds-item-page-title-field [item]="object" class="mr-auto">
+  </ds-item-page-title-field>
+  <ds-dso-edit-menu></ds-dso-edit-menu>
+</div>
+  <div class="row">
+    <div class="col-xs-12 col-md-4">
+
+
+      <ng-container *ngIf="!mediaViewer.image">
+        <ds-metadata-field-wrapper [hideIfNoTextContent]="false">
+          <ds-thumbnail [thumbnail]="object?.thumbnail | async"
+                        [defaultImage]="'assets/images/place-placehplder.svg'"
+                        [alt]="'thumbnail.orgunit.alt'"
+                        [placeholder]="'thumbnail.orgunit.placeholder'"
+          >
+          </ds-thumbnail>
+        </ds-metadata-field-wrapper>
+      </ng-container>
+      <ng-container *ngIf="mediaViewer.image">
+       <ds-entity-media-viewer [item]="object" [videoOptions]="mediaViewer.video"></ds-entity-media-viewer>
+      </ng-container>
+
+      <!-- <ds-themed-entity-item-page-file-section [item]="object"></ds-themed-entity-item-page-file-section> -->
+  
+        <!-- mohamed start edit -->
+        <!-- <div class="desktop-mode">
+          <ds-item-files-section [item]="object"></ds-item-files-section>
+        </div>
+
+        <div class="mobile-mode">
+          <div *ngIf="!fileUrl">
+            <ds-item-files-section  [item]="object"></ds-item-files-section>
+          </div>
+          <ds-media-viewer-switcher [item]="object"></ds-media-viewer-switcher>
+        </div> -->
+        <!-- <ds-item-files-section [item]="object"></ds-item-files-section> -->
+    <!-- mohamed end edit -->
+      <div *ngIf="object?.firstMetadata('dc.rights')">
+        <a
+          href="{{object?.firstMetadata('dc.rights.uri')?.value}}/deed.{{locale}}"
+          rel="noopener" target="_blank" class="rights-statement-button
+          attribution mr-auto" data-v-4daef65b="" data-qa="provider name">
+          <span data-qa="rights statement" class="license-label d-inline-flex
+            align-items-center" data-v-4daef65b="">
+  
+            <span class="license-label-text"
+            [innerHTML]="('search.filters.rights.' +
+            object?.firstMetadata('dc.rights')?.value | translate: {default:
+            object?.firstMetadata('dc.rights')?.value}
+            )">
+  
+          </span>
+          </span>
+        </a>
+    
+    </div>
+    <br>
+      <ds-generic-item-page-field [item]="object"
+        [fields]="['place.oldName']"
+        [label]="'place.page.oldName'">
+      </ds-generic-item-page-field>
+
+
+      <ds-generic-item-page-field [item]="object"
+      [fields]="['place.globalLocationNumber']"
+      [label]="'place.page.globalLocationNumber'">
+    </ds-generic-item-page-field>
+    
+    <ds-generic-item-page-field [item]="object"
+      [fields]="['place.zipCode']"
+      [label]="'place.page.zipCode'">
+    </ds-generic-item-page-field>
+      
+      <ds-generic-item-page-field [item]="object"
+      [fields]="['place.branchCode']"
+      [label]="'place.page.branchCode'">
+    </ds-generic-item-page-field>
+
+    <ds-generic-item-page-field [item]="object"
+    [fields]="['place.telephone']"
+    [label]="'place.page.telephone'">
+  </ds-generic-item-page-field>
+
+  <ds-generic-item-page-field [item]="object"
+  [fields]="['place.city']"
+  [label]="'orgunit.page.organizationAddressLocality'">
+</ds-generic-item-page-field>
+<ds-generic-item-page-field [item]="object"
+  [fields]="['place.country']"
+  [label]="'orgunit.page.organizationAddressCountry'">
+</ds-generic-item-page-field>
+
+  <ds-generic-item-page-field [item]="object"
+  [fields]="['place.address']"
+  [label]="'place.page.address'">
+</ds-generic-item-page-field>
+
+<ds-generic-item-page-field [item]="object"
+      [fields]="['dc.identifier.wikipedia']"
+      [label]="'person.page.wikipedia'">
+    </ds-generic-item-page-field>
+
+
+
+    </div>
+    <div class="col-xs-12 col-md-7">
+   <!-- mohamed start edit -->
+   <!-- <div class="desktop-mode">
+    <ds-media-viewer-switcher [item]="object"></ds-media-viewer-switcher>
+   </div> -->
+   <!-- <ds-media-viewer-switcher></ds-media-viewer-switcher> -->
+    <!-- mohamed end edit -->
+
+
+
+      <ds-generic-item-page-field [item]="object"
+      [fields]="['dc.description']"
+      [label]="'place.page.description'">
+    </ds-generic-item-page-field>
+    
+      <ds-generic-item-page-field [item]="object"
+        [fields]="['place.latitude']"
+        [label]="'place.page.latitude'">
+      </ds-generic-item-page-field>
+
+      <ds-generic-item-page-field [item]="object"
+      [fields]="['place.longitude']"
+      [label]="'place.page.longitude'">
+    </ds-generic-item-page-field>
+
+    <ds-generic-item-page-field [item]="object"
+    [fields]="['place.openingHoursSpecification']"
+    [label]="'place.page.openingHoursSpecification'">
+  </ds-generic-item-page-field>
+
+
+  <ds-generic-item-page-field [item]="object"
+  [fields]="['place.publicAccess']"
+  [label]="'place.page.publicAccess'">
+</ds-generic-item-page-field>
+
+<ds-generic-item-page-field [item]="object"
+[fields]="['place.slogan']"
+[label]="'orgunit.page.slogan'">
+</ds-generic-item-page-field>
+
+<ds-generic-item-page-field [item]="object"
+[fields]="['dc.subject']"
+[separator]="','"
+[label]="'item.page.subject'">
+</ds-generic-item-page-field>
+
+<ds-related-items
+      [parentItem]="object"
+      [relationType]="'isOrgUnitOfPlace'"
+      [label]="'relationships.isOrgUnitOf' | translate">
+    </ds-related-items>
+      <ds-related-items
+        [parentItem]="object"
+        [relationType]="'isEventOfPlace'"
+        [label]="'relationships.isEventOf' | translate">
+      </ds-related-items>
+
+
+      <ds-related-items
+      [parentItem]="object"
+      [relationType]="'isActivityOfPlace'"
+      [label]="'relationships.isActivityOf' | translate">
+    </ds-related-items>
+
+
+    <ds-related-items
+    [parentItem]="object"
+    [relationType]="'isSiteOfPlace'"
+    [label]="'relationships.isSiteOf' | translate">
+  </ds-related-items>
+
+<ds-related-items
+      [parentItem]="object"
+      [relationType]="'isPublicationOfPlace'"
+      [label]="'relationships.isPublicationOf' | translate">
+    </ds-related-items>
+
+      <ds-related-items
+      [parentItem]="object"
+      [relationType]="'isEraOfPlace'"
+      [label]="'relationships.isEraOf' | translate">
+    </ds-related-items>
+
+
+      <div>
+        <a class="btn btn-outline-primary" [routerLink]="[itemPageRoute + '/full']">
+          {{"item.page.link.full" | translate}}
+        </a>
+      </div>
+    </div>
+    <div class="mt-5 w-100">
+      <ds-tabbed-related-entities-search  [item]="object"
+                                          [relationTypes]="[{
+                                            label: 'isOrgUnitOfPerson',
+                                            filter: 'isPlaceOfPerson',
+                                            configuration: 'person-relationships'
+                                          },
+                                          {
+                                            label: 'isChildOfOrgUnit',
+                                            filter: 'isPlaceOfAdministration',
+                                            configuration: 'orgunit-relationships'
+                                          }]">
+      </ds-tabbed-related-entities-search>
+    </div>
+  </div>
+  

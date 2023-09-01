@@ -1,0 +1,73 @@
+.files-menu {
+  border: 2px solid rgb(243, 243, 247);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  // max-height: 650px;
+  max-height: 70vh;
+  overflow-y: auto;
+  margin-bottom: 15px;
+}
+
+.files-menu-header {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 40px;
+  background-color: rgb(243, 243, 247);
+  padding: 10px;
+  font-size: medium;
+  font-weight: bold;
+}
+
+.file-link {
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  border: 3px solid transparent;
+  justify-content: flex-start;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.file-link:is(:hover, .active) {
+  background-color: rgb(243, 243, 247);
+}
+
+.file-link-selected {
+  background-color: rgb(216, 235, 250);
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  border-left: 3px solid var(--red);
+  justify-content: flex-start;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  padding: 10px;
+  width: 100%;
+}
+
+
+.files-menu-header button {
+  background-color: unset;
+  border: none;
+  cursor: pointer;
+}
+
+::ng-deep html[dir="ltr"] .fa-angle-double-left {
+  transform: scale(-1) !important;
+}
+
+::ng-deep html[dir="ltr"] .fa-angle-double-right {
+  transform: scale(-1) !important;
+}
+
+::ng-deep html[dir="rtl"] .file-link-selected {
+  border-right: 3px solid var(--red) !important;
+  border-left: unset !important;
+}

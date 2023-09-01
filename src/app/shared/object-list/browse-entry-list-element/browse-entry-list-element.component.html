@@ -1,0 +1,11 @@
+<div  class="d-flex flex-row">
+    <a *ngIf="linkType != linkTypes.None" [target]="(linkType == linkTypes.ExternalLink) ? '_blank' : '_self'" rel="noopener noreferrer" [routerLink]="[]" [queryParams]="queryParams$ | async" [queryParamsHandling]="'merge'" class="lead">
+        {{isEntity? (getEntity(object.value) | translate):(isRights? (getRights(object.value) | translate): (object.value | translate | kwareTranslate))}}
+        
+    </a>
+    <span *ngIf="linkType == linkTypes.None" class="lead">
+        {{isEntity? (getEntity(object.value) | translate):(isRights? (getRights(object.value) | translate): (object.value | translate | kwareTranslate))}}
+    </span>
+    <span class="pr-2">&nbsp;</span>
+    <span class="badge badge-pill badge-secondary align-self-center">{{object.count}}</span>
+</div>

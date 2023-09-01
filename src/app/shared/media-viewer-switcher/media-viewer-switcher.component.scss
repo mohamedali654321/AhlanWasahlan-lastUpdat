@@ -1,0 +1,50 @@
+.media-viewer {
+  width: inherit !important;
+  display: block;
+  border: 2px solid rgb(243, 243, 247);
+  height: 650px;
+  margin-bottom: 50px;
+}
+
+#pdfJsViewer {
+  border: 1px solid #dee2e6;
+  height: 650px;
+  width: 100%;
+}
+
+.downlaod-only {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  font-size: 1.4rem;
+  background: rgba(18, 18, 18, 0.03);
+  color: rgba(0, 0, 0, 0.62);
+  justify-content: center;
+  align-items: center;
+}
+
+.downlaod-only button {
+  background-color: rgba(0, 0, 0, 0.62);
+  border-radius: 10px;
+  color: white;
+  font-size: 1.4rem;
+  cursor: pointer;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+}
+
+.downlaod-only span,em {
+padding: 10px;
+}
+
+@media screen and (min-width: 800px){
+  .media-viewer {
+    width: 50vw !important;
+  }
+}

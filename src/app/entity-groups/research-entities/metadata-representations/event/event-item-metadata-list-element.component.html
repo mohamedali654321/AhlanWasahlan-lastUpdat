@@ -1,0 +1,13 @@
+<ng-template #descTemplate>
+  <span class="text-muted">
+      <span class="item-list-job-title">
+        <span [innerHTML]="mdRepresentation.firstMetadataValue(['event.aboute']) | kwareTranslate "></span>
+      </span>
+  </span>
+</ng-template>
+<ds-truncatable [id]="mdRepresentation.id">
+  <a [routerLink]="[itemPageRoute]"
+  [innerHTML]="(localeService.getCurrentLanguageCode() === 'en' && mdRepresentation.firstMetadataValue('event.title.alternative') )? (mdRepresentation.firstMetadataValue('event.title.alternative') | kwareTranslate) : (mdRepresentation.getValue() | kwareTranslate)"
+     [ngbTooltip]="mdRepresentation.allMetadata(['event.about']).length > 0 ? (descTemplate | kwareTranslate) : null"></a>
+
+</ds-truncatable>

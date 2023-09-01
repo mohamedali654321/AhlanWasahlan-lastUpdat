@@ -1,0 +1,34 @@
+.file-link-container {
+  background-color: unset;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  display: flex; // kare-edit
+  align-items: center; // kare-edit
+}
+
+
+.file-name {
+  text-justify: auto;
+  padding-inline-start: 10px;
+  white-space: break-spaces;
+  text-align: inherit;
+  width: 100%;
+}
+
+.file-thumbnail {
+  padding: 5px;
+  border-radius: 10px;
+  width: 60px;
+  height: 60px;
+}
+
+.no-perms {
+  padding: 5px;
+  border-radius: 10px;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

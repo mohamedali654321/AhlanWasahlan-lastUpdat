@@ -1,0 +1,65 @@
+<div class="row">
+    <div *ngIf="showThumbnails" class="col-3 col-md-2">
+        <a *ngIf="linkType != linkTypes.None" [target]="(linkType == linkTypes.ExternalLink) ? '_blank' : '_self'"
+           rel="noopener noreferrer"
+           [routerLink]="[itemPageRoute]" class="dont-break-out">
+            <ds-thumbnail [thumbnail]="dso?.thumbnail | async"
+                          [defaultImage]="'assets/images/events.png'"
+                          [alt]="'thumbnail.orgunit.alt'"
+                          [placeholder]="'thumbnail.orgunit.placeholder'">
+            </ds-thumbnail>
+        </a>
+        <span *ngIf="linkType == linkTypes.None" class="dont-break-out">
+            <ds-thumbnail [thumbnail]="dso?.thumbnail | async"
+                          [defaultImage]="'assets/images/events.png'"
+                          [alt]="'thumbnail.orgunit.alt'"
+                          [placeholder]="'thumbnail.orgunit.placeholder'">
+            </ds-thumbnail>
+        </span>
+    </div>
+    <div [ngClass]="showThumbnails ? 'col-9' : 'col-md-12'">
+        <ds-type-badge *ngIf="showLabel" [object]="dso"></ds-type-badge>
+        <ds-truncatable [id]="dso.id">
+            <a *ngIf="linkType != linkTypes.None" [target]="(linkType == linkTypes.ExternalLink) ? '_blank' : '_self'"
+               rel="noopener noreferrer"
+               [routerLink]="[itemPageRoute]" class="lead"
+               [innerHTML]="(dsoTitle | kwareTranslate) || ('event.listelement.no-title' | translate)"></a>
+               <!-- kware-edit kwareTranslatePipe -->
+            <span *ngIf="linkType == linkTypes.None"
+                  class="lead"
+                  [innerHTML]="(dsoTitle | kwareTranslate)  || ('event.listelement.no-title' | translate | kwareTranslate)"></span>
+                  <ds-publictaion-count  [dso]="dso"></ds-publictaion-count>
+
+                  <div *ngIf="dso.allMetadata(['event.title']).length > 0 || dso.allMetadata(['event.title.alternative']).length > 0">
+                    <span style="color:#b9964b!important ;font-size: .9375rem;font-weight: 100;" [innerHtml]="(localeEn && firstMetadataValue('event.title.alternative'))?(firstMetadataValue('event.title.alternative') | kwareTranslate):(firstMetadataValue('event.title') | kwareTranslate)"></span>
+
+                  </div>
+                  <div class="text-muted">
+
+                      <span *ngIf="firstMetadataValue('event.startDate')" >{{'event.start.date' | translate}} {{firstMetadataValue('event.startDate')}} </span>
+                      <span *ngIf="firstMetadataValue('event.endDate')" > {{'event.end.date' | translate}} {{firstMetadataValue('event.endDate')}}</span>
+                  </div>
+                  
+
+                  <div *ngIf="dso.hasMetadata('dc.subject')">
+                    <div class="keys-info ">
+                      <span class=" badge-info" *ngFor="let keyword of keywords;let last=last;"><a
+                          style="white-space: -webkit-nowrap !important;font-size: .9375rem;font-weight: 100;" href="/search?query=&f.subject={{keyword}},equals"
+                          title="{{keyword | kwareTranslate}}">{{keyword | kwareTranslate}}</a><span style="color:#b9964b ;"
+                          *ngIf="!last"> • </span> </span>
+                    </div>
+                  </div>
+                 
+            <span class="text-muted">
+      <span *ngIf="dso.allMetadata(['event.about']).length > 0"
+        style="color: #3992a4;"
+            class="item-list-org-unit-description">
+            <!-- kware-edit kwareTranslatePipe -->
+            <ds-truncatable-part [id]="dso.id" [minLines]="3"><span
+                    [innerHTML]="removeMarkdown(firstMetadataValue('event.about') | kwareTranslate)"></span>
+            </ds-truncatable-part>
+      </span>
+  </span>
+        </ds-truncatable>
+    </div>
+</div>

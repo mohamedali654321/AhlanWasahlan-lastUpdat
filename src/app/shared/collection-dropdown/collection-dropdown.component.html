@@ -1,0 +1,52 @@
+<div *ngIf="searchField" class="form-group w-100 pr-2 pl-2">
+  <input type="search"
+         class="form-control w-100"
+         (click)="$event.stopPropagation();"
+         placeholder="{{ 'submission.sections.general.search-collection' | translate }}"
+         [formControl]="searchField"
+         #searchFieldEl>
+</div>
+<div class="dropdown-divider"></div>
+<ul class="scrollable-menu p-0"
+     aria-labelledby="dropdownMenuButton"
+     (scroll)="onScroll($event)"
+     infiniteScroll
+     [infiniteScrollDistance]="1.5"
+     [infiniteScrollThrottle]="0"
+     [infiniteScrollUpDistance]="1.5"
+     [fromRoot]="true"
+     [scrollWindow]="false"
+     (scrolled)="onScrollDown()">
+
+  <li class="dropdown-item disabled" *ngIf="searchListCollection?.length == 0 && !(isLoading | async)">
+    {{'submission.sections.general.no-collection' | translate}}
+  </li>
+      <!-- kware start edit
+    - check if searchListCollection > 0 to display collection dropdown menu if not disabled it
+    - add background to selected collection
+    - compare between selected collection id and search list collection IDs   
+    - disabled click if selected collection 
+  -->
+  <ng-container *ngIf="searchListCollection?.length > 0">
+    <button *ngFor="let listItem of searchListCollection"
+            class="dropdown-item collection-item text-primary"
+            [ngClass]="{'bg-primary selectedCollection': listItem.collection.id === selectedCollection}"
+            title="{{ listItem.collection.name | kwareTranslate }}"
+            (click)="listItem.collection.id === selectedCollection ? $event.stopPropagation():onSelect(listItem)"
+            [disabled]="listItem.collection.id === selectedCollection"
+            >
+      <ul class="list-unstyled mb-0">
+        <li class="list-item text-truncate " *ngFor="let item of listItem.communities">
+          {{ item.name |kwareTranslate}} <i class="fa fa-level-down" aria-hidden="true"></i>
+        </li>
+        <li class="list-item text-truncate  font-weight-bold">{{ listItem.collection.name | kwareTranslate}}</li>
+      </ul>
+    </button>
+  </ng-container>
+   <!-- kware end edit -->
+  <button class="dropdown-item disabled" *ngIf="(isLoading | async)">
+    <ds-themed-loading message="{{'loading.default' | translate}}">
+    </ds-themed-loading>
+  </button>
+
+</ul>

@@ -1,0 +1,19 @@
+<ng-template #descTemplate>
+  <span class="text-muted">
+      <span *ngIf="mdRepresentation.allMetadata(['person.jobTitle']).length > 0"
+            class="item-list-job-title">
+              <span *ngFor="let value of mdRepresentation.allMetadataValues(['person.jobTitle']); let last=last;">
+                  <span [innerHTML]="value | kwareTranslate"><span [innerHTML]="value | kwareTranslate"></span></span>
+              </span>
+      </span>
+  </span>
+</ng-template>
+<ds-truncatable [id]="mdRepresentation.id">
+  <a [routerLink]="[itemPageRoute]"
+
+     [ngbTooltip]="mdRepresentation.allMetadata(['person.jobTitle']).length > 0 ? (descTemplate | kwareTranslate ) : null">
+     <!-- {{convertComma((mdRepresentation.getValue()?.split(",")[0] | kwareTranslate) + ',' +  (mdRepresentation.getValue()?.split(",")[1] | kwareTranslate))}} -->
+     {{mdRepresentation.allMetadata('person.name') | kwareLanguageSplit}}
+
+    </a>
+</ds-truncatable>

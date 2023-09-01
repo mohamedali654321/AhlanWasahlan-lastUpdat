@@ -1,0 +1,12 @@
+<!-- <button *ngIf="isShow" (click)="gotoTop()">👆</button> -->
+
+<!-- kware start edit -- issue.7.6.004 
+    * add scroll to top button
+-->
+<div class="scrollContainer">
+
+    <div class ="scrollTop" *ngIf="isShow" (click)="gotoTop()"   [ngClass]="{'active': isShow }">  </div>
+
+    
+</div>
+<!-- kware end edit -- issue.7.6.004 -->

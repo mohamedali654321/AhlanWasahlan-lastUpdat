@@ -1,0 +1,247 @@
+<ds-themed-results-back-button *ngIf="showBackButton | async" [back]="back"></ds-themed-results-back-button>
+<div class="d-flex flex-row">
+  <ds-item-page-title-field [item]="object" class="mr-auto">
+  </ds-item-page-title-field>
+  <ds-dso-edit-menu></ds-dso-edit-menu>
+</div>
+<div class="row">
+  <div class="col-xs-12 col-md-4">
+
+
+    <ng-container *ngIf="!mediaViewer.image">
+      <ds-metadata-field-wrapper [hideIfNoTextContent]="false">
+        <ds-thumbnail [thumbnail]="object?.thumbnail | async"
+          [defaultImage]="'assets/images/orgunit-placeholder.svg'"
+          [alt]="'thumbnail.orgunit.alt'"
+          [placeholder]="'thumbnail.orgunit.placeholder'">
+        </ds-thumbnail>
+      </ds-metadata-field-wrapper>
+    </ng-container>
+    <ng-container *ngIf="mediaViewer.image">
+      <ds-entity-media-viewer [item]="object" [videoOptions]="mediaViewer.video"></ds-entity-media-viewer>
+    </ng-container>
+
+        <!-- mohamed start edit -->
+        <!-- <div class="desktop-mode">
+          <ds-item-files-section [item]="object"></ds-item-files-section>
+        </div>
+
+        <div class="mobile-mode">
+          <div *ngIf="!fileUrl">
+            <ds-item-files-section  [item]="object"></ds-item-files-section>
+          </div>
+          <ds-media-viewer-switcher [item]="object"></ds-media-viewer-switcher>
+        </div> -->
+        <!-- <ds-item-files-section [item]="object"></ds-item-files-section> -->
+    <!-- mohamed end edit -->
+    <div *ngIf="object?.firstMetadata('dc.rights')">
+      <a
+        href="{{object?.firstMetadata('dc.rights.uri')?.value}}/deed.{{locale}}"
+        rel="noopener" target="_blank" class="rights-statement-button
+        attribution mr-auto" data-v-4daef65b="" data-qa="provider name">
+        <span data-qa="rights statement" class="license-label d-inline-flex
+          align-items-center" data-v-4daef65b="">
+
+          <span class="license-label-text"
+          [innerHTML]="('search.filters.rights.' +
+          object?.firstMetadata('dc.rights')?.value | translate: {default:
+          object?.firstMetadata('dc.rights')?.value}
+          )">
+
+        </span>
+        </span>
+      </a>
+
+    </div>
+    <br>
+    <ds-generic-item-page-field [item]="object"
+      [fields]="['dc.identifier']"
+      [label]="'orgunit.page.id'">
+    </ds-generic-item-page-field>
+
+    <ds-generic-item-page-field [item]="object"
+    [fields]="['organization.branchCode']"
+    [label]="'orgunit.page.branchCode'">
+  </ds-generic-item-page-field>
+
+  <ds-generic-item-page-field [item]="object"
+  [fields]="['organization.identifier.ror']"
+  [label]="'orgunit.page.ror'">
+</ds-generic-item-page-field>
+
+
+    <ds-generic-item-page-field [item]="object"
+      [fields]="['dc.relation.college']"
+      [label]="'item.page.college'">
+    </ds-generic-item-page-field>
+
+    <ds-generic-item-page-field [item]="object"
+      [fields]="['organization.foundingDate']"
+      [label]="'orgunit.page.organizationFoundingDate'">
+    </ds-generic-item-page-field>
+
+
+    <ds-generic-item-page-field [item]="object"
+    [fields]="['dc.date.issuedhijri']"
+    [label]="'orgunit.page.issuedhijri'">
+    </ds-generic-item-page-field>
+
+
+    <ds-generic-item-page-field [item]="object"
+      [fields]="['organization.address']"
+      [label]="'person.page.address'">
+    </ds-generic-item-page-field>
+
+    <ds-generic-item-page-field [item]="object"
+      [fields]="['organization.address.addressLocality']"
+      [label]="'orgunit.page.organizationAddressLocality'">
+    </ds-generic-item-page-field>
+    <ds-generic-item-page-field [item]="object"
+      [fields]="['organization.address.addressCountry']"
+      [label]="'orgunit.page.organizationAddressCountry'">
+    </ds-generic-item-page-field>
+
+
+    <ds-generic-item-page-field [item]="object"
+      [fields]="['organization.email']"
+      [label]="'person.page.email'">
+    </ds-generic-item-page-field>
+    <ds-generic-item-page-field [item]="object"
+      [fields]="['organization.telephone']"
+      [label]="'person.page.telephone'">
+    </ds-generic-item-page-field>
+
+
+
+    <ds-generic-item-page-field [item]="object"
+      [fields]="['dc.identifier.wikipedia']"
+      [label]="'person.page.wikipedia'">
+    </ds-generic-item-page-field>
+
+
+    <ds-generic-item-page-field [item]="object"
+      [fields]="['dc.identifier.linkedIn']"
+      [label]="'person.page.linkedIn'">
+    </ds-generic-item-page-field>
+
+    <ds-generic-item-page-field [item]="object"
+      [fields]="['dc.identifier.facebook']"
+      [label]="'person.page.facebook'">
+    </ds-generic-item-page-field>
+
+
+    <ds-generic-item-page-field [item]="object"
+      [fields]="['dc.identifier.twitter']"
+      [label]="'person.page.twitter'">
+    </ds-generic-item-page-field>
+
+
+  </div>
+  <div class="col-xs-12 col-md-7">
+     <!-- mohamed start edit -->
+     <!-- <div class="desktop-mode">
+      <ds-media-viewer-switcher [item]="object"></ds-media-viewer-switcher>
+     </div> -->
+   
+    <!-- <ds-media-viewer-switcher></ds-media-viewer-switcher> -->
+      <!-- mohamed end edit -->
+
+    
+
+
+    <ds-generic-item-page-field [item]="object"
+      [fields]="['dc.description']"
+      [label]="'orgunit.page.description'">
+    </ds-generic-item-page-field>
+
+    <ds-generic-item-page-field [item]="object"
+    [fields]="['organization.role']"
+    [label]="'person.page.jobTitle'">
+  </ds-generic-item-page-field>
+
+  <ds-generic-item-page-field [item]="object"
+    [fields]="['organization.role.description']"
+    [label]="'person.page.jobTitleDescription'">
+  </ds-generic-item-page-field>
+
+    <ds-generic-item-page-field [item]="object"
+    [fields]="['organization.slogan']"
+    [label]="'orgunit.page.slogan'">
+  </ds-generic-item-page-field>
+
+    <ds-generic-item-page-field [item]="object"
+    [fields]="['organization.openingHoursSpecification']"
+    [label]="'place.page.openingHoursSpecification'">
+  </ds-generic-item-page-field>
+
+
+  <ds-generic-item-page-field [item]="object"
+  [fields]="['organization.legalName.old']"
+  [label]="'orgunit.page.legalNameAlternative'">
+</ds-generic-item-page-field>
+
+
+<ds-related-items
+      [parentItem]="object"
+      [relationType]="'isPlaceOfOrgUnit'"
+      [label]="'relationships.isPlaceOf' | translate">
+    </ds-related-items>
+
+    <ds-related-items
+    [parentItem]="object"
+    [relationType]="'isSiteOfOrgUnit'"
+    [label]="'relationships.isSiteOf' | translate">
+  </ds-related-items>
+
+    <ds-related-items
+      [parentItem]="object"
+      [relationType]="'isEventOfOrgUnit'"
+      [label]="'relationships.isEventOf' | translate">
+    </ds-related-items>
+
+    <ds-related-items
+    [parentItem]="object"
+    [relationType]="'isActivityOfOrgUnit'"
+    [label]="'relationships.isActivityOf' | translate">
+  </ds-related-items>
+
+
+    <ds-related-items
+      [parentItem]="object"
+      [relationType]="'isEraOfOrgUnit'"
+      [label]="'relationships.isEraOf' | translate">
+    </ds-related-items>
+
+    <ds-related-items
+    [parentItem]="object"
+    [relationType]="'isPublicationOfOrgUnit'"
+    [label]="'relationships.isPublicationOf' | translate">
+  </ds-related-items>
+
+    <div>
+      <a class="btn btn-outline-primary" [routerLink]="[itemPageRoute +
+        '/full']">
+        {{"item.page.link.full" | translate}}
+      </a>
+    </div>
+  </div>
+  <div class="mt-5 w-100">
+    <ds-tabbed-related-entities-search [item]="object"
+      [relationTypes]="[{
+      label: 'isOrgUnitOfPerson',
+      filter: 'isOrgUnitOfPerson',
+      configuration: 'person-relationships'
+      },
+      {
+      label: 'isChildOfOrgUnit',
+      filter: 'isOrgUnitOfAdministration',
+      configuration: 'orgunit-relationships'
+      },
+      { 
+      label: 'isOrgUnitOfProject',
+      filter: 'isOrgUnitOfProject',
+      configuration: 'project-relationships'
+      }]">
+    </ds-tabbed-related-entities-search>
+  </div>
+</div>

@@ -1,0 +1,23 @@
+<ng-template #descTemplate>
+  <span class="text-muted">
+      <span class="item-list-job-title">
+        <span [innerHTML]="mdRepresentation.firstMetadataValue(['dc.description']) | kwareTranslate "></span>
+      </span>
+  </span>
+</ng-template>
+<ds-truncatable [id]="mdRepresentation.id">
+  <a [routerLink]="[itemPageRoute]"
+  [innerHTML]="(mdRepresentation.allMetadata('dc.title') | kwareLanguageSplit)"
+       [ngbTooltip]="mdRepresentation.allMetadata(['dc.description']).length > 0 ? (descTemplate | kwareTranslate) : null"></a>
+
+
+     <div *ngIf="mdRepresentation.allMetadata(['journalvolume.title']).length > 0">
+      <span style="color:#b9964b!important ;font-size: .9375rem;font-weight: 100;" [innerHtml]="(localeService.getCurrentLanguageCode() === 'en' && mdRepresentation.firstMetadataValue('journalvolume.title.alternative') )? (mdRepresentation.firstMetadataValue('journalvolume.title.alternative') | kwareTranslate) : (mdRepresentation.firstMetadataValue('journalvolume.title') | kwareTranslate)"></span>
+
+    </div>
+
+     <div *ngIf="mdRepresentation.allMetadata(['journal.title']).length > 0">
+      <span style="color:#b9964b!important ;font-size: .9375rem;font-weight: 100;" [innerHtml]="((localeService.getCurrentLanguageCode() === 'en' && mdRepresentation.firstMetadataValue('journal.title.alternative') )? (mdRepresentation.firstMetadataValue('journal.title.alternative') | kwareTranslate) : (mdRepresentation.firstMetadataValue('journal.title') | kwareTranslate))"></span>
+
+    </div>
+</ds-truncatable>

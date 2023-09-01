@@ -1,0 +1,69 @@
+<div class="viewer-toolbar" *ngIf="fileURL">
+  <div class="viewer-toolbar-content">
+    <div class="viewer-toolbar-controls">
+      <ul>
+                 <!-- mohamed-edit files-icons -->
+         <li  class="burger-menu-content burgerMenu mobile-mode">
+          <div ngbDropdown class="navbar-nav"  display="dynamic" placement="bottom-right">
+            <a href="#" role="button"
+               [attr.aria-label]="'nav.files' |translate"
+               [title]="'nav.files' | translate" class="px-1"
+               (click)="$event.preventDefault()" data-toggle="dropdown" ngbDropdownToggle
+               tabindex="2">
+               <em class="fas fa-solid fa-file"></em>
+            </a>
+            <div ngbDropdownMenu class="dropdown-menu"  >
+              <ds-item-files-section  class="dropdown-item files-content" tabindex="0" [item]="item"></ds-item-files-section>
+            </div>
+          </div>
+        </li>
+        <!-- mohamed-edit files-icons -->
+        <li
+          *ngIf="
+            !fileFormat.startsWith('video') && !fileFormat.startsWith('audio')
+          "
+        >
+          <button
+            class="viewer-toolbar-btn"
+            (click)="
+              fileFormat === 'application/pdf'
+                ? addWatermarkToPdfFile('print')
+                : printOtherFilesFormats()
+            "
+            dsStopContextMenu
+          >
+            <i class="fas fa-print"></i>
+          </button>
+        </li>
+        <li>
+          <button
+            class="viewer-toolbar-btn"
+            (click)="
+              fileFormat === 'application/pdf'
+                ? addWatermarkToPdfFile('download')
+                : downloadOtherFilesFormat()
+            "
+            dsStopContextMenu
+          >
+            <i class="fas fa-download"></i>
+          </button>
+        </li>
+        <li>
+          <button
+            class="viewer-toolbar-btn"
+            (click)="openFullscreen()"
+            dsStopContextMenu
+          >
+            <i class="fas fa-expand"></i>
+          </button>
+        </li>
+      </ul>
+    </div>
+    <div class="viewer-toolbar-filename">{{ fileName }}</div>
+    <div class="viewer-toolbar-close">
+      <button class="viewer-toolbar-btn" (click)="closeViewer()">
+        <i class="fa fa-times" aria-hidden="true"></i>
+      </button>
+    </div>
+  </div>
+</div>

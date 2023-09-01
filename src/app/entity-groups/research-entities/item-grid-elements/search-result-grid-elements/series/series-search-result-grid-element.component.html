@@ -1,0 +1,76 @@
+<div class="card" [@focusShadow]="(isCollapsed$ | async)?'blur':'focus'">
+  <!-- <ds-social-sharing></ds-social-sharing> -->
+  <ds-truncatable [id]="dso.id">
+    <div class="position-absolute ml-1">
+      <ng-content></ng-content>
+    </div>
+    <a *ngIf="linkType != linkTypes.None"
+      [target]="(linkType == linkTypes.ExternalLink) ? '_blank' : '_self'"
+      rel="noopener noreferrer" [routerLink]="[itemPageRoute]"
+      class="card-img-top full-width" [attr.title]="'search.results.view-result'
+      | translate">
+      <div>
+        <ds-thumbnail [thumbnail]="dso?.thumbnail | async" [limitWidth]="false">
+        </ds-thumbnail>
+      </div>
+    </a>
+    <span *ngIf="linkType == linkTypes.None" class="card-img-top full-width">
+      <div>
+        <ds-thumbnail [thumbnail]="dso?.thumbnail | async" [limitWidth]="false">
+        </ds-thumbnail>
+      </div>
+    </span>
+    <div class="card-body">
+      <ds-type-badge *ngIf="showLabel" [object]="dso"></ds-type-badge>
+      <ds-truncatable-part [id]="dso.id" [minLines]="3" type="h4">
+        <!-- kware-edit kwareTranslatePipe -->
+        <h4 class="card-title">{{ dsoTitle  | kwareTranslate}}
+          <ds-publictaion-count style="font-size: 16px !important;"  [dso]="dso"></ds-publictaion-count>
+        </h4>      </ds-truncatable-part>
+      <span class="text-muted">
+        <ds-truncatable-part [id]="dso.id" [minLines]="1">
+            <ng-container *ngIf="dso.firstMetadataValue('dc.publisher')
+                || dso.firstMetadataValue('dc.date.issued')">
+                <!-- kware-edit kwareTranslatePipe -->
+                (<span *ngIf="dso.firstMetadataValue('dc.publisher')"
+                    class="item-list-publisher"
+                    [innerHTML]="firstMetadataValue('dc.publisher')
+                    +regxColon() | kwareTranslate"></span>
+                <span *ngIf="dso.firstMetadataValue('dc.date.issued')"
+                    class="item-list-date"
+                    [innerHTML]="firstMetadataValue('dc.date.issued')"></span>)
+            </ng-container>
+        </ds-truncatable-part>
+    </span>
+    <div *ngIf="dso.hasMetadata('dc.subject')">
+      <div class="keys-info ">
+          <span class=" badge-info" *ngFor="let keyword of
+              keywords;let last=last;"><a
+                  style="white-space: -webkit-nowrap
+                  !important;font-size: .9375rem;font-weight: 100;"
+                  href="/search?query=&f.subject={{keyword}},equals"
+                  title="{{keyword | kwareTranslate}}">{{keyword | kwareTranslate}}</a><span
+                  style="color:#b9964b ;"
+                  *ngIf="!last"> • </span> </span>
+      </div>
+  </div>
+  <span class="item-abstract card-text">
+    <span *ngIf="dso.allMetadata(['dc.description']).length> 0"
+        class="item-list-org-unit-description">
+        <!-- kware-edit kwareTranslatePipe -->
+        <ds-truncatable-part [id]="dso.id" [minLines]="3"><span
+                [innerHTML]="removeMarkdown(firstMetadataValue('dc.description') | kwareTranslate)
+                "></span>
+        </ds-truncatable-part>
+    </span>
+</span>
+      <div *ngIf="linkType != linkTypes.None" class="text-center">
+        <a [target]="(linkType == linkTypes.ExternalLink) ? '_blank' : '_self'"
+          rel="noopener noreferrer" [routerLink]="[itemPageRoute]"
+          class="lead btn btn-primary viewButton">{{
+          'search.results.view-result' | translate}}</a>
+      </div>
+    </div>
+  </ds-truncatable>
+  <ng-content></ng-content>
+</div>

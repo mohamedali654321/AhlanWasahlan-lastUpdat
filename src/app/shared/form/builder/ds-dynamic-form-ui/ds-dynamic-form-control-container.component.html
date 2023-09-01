@@ -1,0 +1,213 @@
+<div
+  style="margin-bottom: 15px"
+  [class.form-group]="
+    (model.type !== 'GROUP' && asBootstrapFormGroup) ||
+    getClass('element', 'container').includes('form-group')
+  "
+  [class.d-none]="model.hidden"
+  [formGroup]="group"
+  [ngClass]="[getClass('element', 'container'), getClass('grid', 'container')]"
+>
+  <label
+    *ngIf="!isCheckbox && hasLabel"
+    [id]="'label_' + model.id"
+    [for]="id"
+    [innerHTML]="
+      model.required && model.label
+        ? (model.label | translate) + ' *'
+        : (model.label | translate)
+    "
+    [ngClass]="[getClass('element', 'label'), getClass('grid', 'label')]"
+  ></label>
+  <ng-container
+    *ngTemplateOutlet="
+      startTemplate?.templateRef;
+      context: { $implicit: model }
+    "
+  ></ng-container>
+  <!--    Should be *ngIf instead of class d-none, but that breaks the #componentViewContainer reference-->
+  <div
+    [ngClass]="{
+      'form-row': model.hasLanguages || isRelationship,
+      'd-none':
+        value?.isVirtual && (model.hasSelectableMetadata || context?.index > 0)
+    }"
+  >
+    <div [ngClass]="getClass('grid', 'control')">
+      <div>
+        <ng-container #componentViewContainer></ng-container>
+      </div>
+      <!-- kware-edit start
+    -add !isRelationship to check if this field has relationship to disable hint  -->
+      <small
+        *ngIf="
+          hasHint &&
+          !isRelationship &&
+          ((!model.repeatable &&
+            (isRelationship === false || value?.value === null)) ||
+            (model.repeatable === true &&
+              context?.index === context?.context?.groups?.length - 1)) &&
+          (!showErrorMessages || errorMessages.length === 0)
+        "
+        class="text-muted ds-hint"
+        [innerHTML]="model.hint | translate"
+        [ngClass]="getClass('element', 'hint')"
+      ></small>
+      <!-- kware-edit end  -->
+
+      <!-- In case of repeatable fields show empty space for all elements except the first -->
+      <div
+        *ngIf="
+          context?.index !== null &&
+          (!showErrorMessages || errorMessages.length === 0)
+        "
+        class="clearfix w-100 mb-2"
+      ></div>
+
+      <div
+        *ngIf="!model.hideErrorMessages && showErrorMessages"
+        [id]="id + '_errors'"
+        [ngClass]="[getClass('element', 'errors'), getClass('grid', 'errors')]"
+      >
+        <small
+          *ngFor="let message of errorMessages"
+          class="invalid-feedback d-block"
+          >{{ message | translate : model.validators }}</small
+        >
+      </div>
+    </div>
+    <div
+      *ngIf="model.languageCodes && model.languageCodes.length > 0"
+      class="col-xs-2"
+    >
+      <select
+        #language="ngModel"
+        [disabled]="model.readOnly"
+        [(ngModel)]="model.language"
+        class="form-control"
+        (blur)="onBlur($event)"
+        (change)="onChangeLanguage($event)"
+        [ngModelOptions]="{ standalone: true }"
+        required
+      >
+        <option *ngFor="let lang of model.languageCodes" [value]="lang.code">
+          {{ lang.display }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <ng-container
+    *ngTemplateOutlet="endTemplate?.templateRef; context: model"
+  ></ng-container>
+  <ng-container *ngIf="value?.isVirtual">
+    <!-- kware start edit -- Fix adding and deleting entities relationships
+      -- handel deleting un-rebeatable field relationship issue (un-rebeatable field not send any context)
+         so, we force setting the formControl with undefined value, and in the <ds-existing-metadata-list-element>
+         component, we pass the formControl prop to check if the un-rebeatable field has a value or not.
+    -->
+    <ds-existing-metadata-list-element
+      *ngIf="model.hasSelectableMetadata"
+      [formControl]="control"
+      [reoRel]="relationshipValue$ | async"
+      [submissionItem]="item$ | async"
+      [listId]="listId"
+      [metadataFields]="model.metadataFields"
+      [submissionId]="model.submissionId"
+      [relationshipOptions]="model.relationship"
+      (remove)="onRemove()"
+    >
+    </ds-existing-metadata-list-element>
+    <ds-existing-relation-list-element
+      *ngIf="!model.hasSelectableMetadata"
+      [ngClass]="{ 'd-block pb-2 pt-2': !context?.index }"
+      [reoRel]="relationshipValue$ | async"
+      [submissionItem]="item$ | async"
+      [listId]="listId"
+      [metadataFields]="model.metadataFields"
+      [submissionId]="model.submissionId"
+      [relationshipOptions]="model.relationship"
+    >
+    </ds-existing-relation-list-element>
+
+    <!-- kware-edit start
+    -add !isRelationship to check if this field has relationship to disable hint  -->
+    <small
+      *ngIf="
+        hasHint &&
+        !isRelationship &&
+        (model.repeatable === false ||
+          context?.index === context?.context?.groups?.length - 1) &&
+        (!showErrorMessages || errorMessages.length === 0)
+      "
+      class="text-muted ds-hint"
+      [innerHTML]="model.hint | translate"
+      [ngClass]="getClass('element', 'hint')"
+    ></small>
+    <!-- kware-edit end -->
+    <div class="clearfix w-100 mb-2"></div>
+  </ng-container>
+
+  <!-- kware start edit
+    -add button for repeatable relationship fields to add  more entities -->
+  <div
+    [style]="
+      model.repeatable === true
+        ? 'width:-webkit-fill-available;flex: -moz-available;margin-top: -7px !important;'
+        : 'width:-webkit-fill-available;flex: -moz-available;'
+    "
+    class="col-auto"
+    *ngIf="isRelationship && !model.repeatable && !control?.value"
+  >
+    <button
+      dsStopContextMenu
+      class="btn btn-secondary"
+      type="button"
+      ngbTooltip="{{ 'form.lookup-help' | translate }}"
+      placement="top"
+      (click)="openLookup(); $event.stopPropagation(); $event.preventDefault()"
+    >
+      <span
+        ><i class="fas fa-plus"></i>
+        {{
+          ("entity.add" | translate) +
+            " " +
+            (model?.placeholder?.startsWith("ال")
+              ? model?.placeholder?.slice(2, 1000)
+              : model?.placeholder)
+        }}</span
+      >
+    </button>
+  </div>
+  <div
+    *ngIf="
+      isRelationship &&
+      model.repeatable &&
+      context?.index === context?.context?.groups?.length - 1
+    "
+    class="col-auto"
+  >
+    <button
+      dsStopContextMenu
+      class="btn btn-secondary"
+      type="button"
+      ngbTooltip="{{ 'form.lookup-help' | translate }}"
+      placement="top"
+      (click)="openLookup(); $event.stopPropagation()"
+    >
+      <span
+        ><i class="fas fa-plus"></i>
+        {{
+          ("entity.add" | translate) +
+            " " +
+            (model?.placeholder?.startsWith("ال")
+              ? model?.placeholder?.slice(2, 1000)
+              : (model?.placeholder | translate))
+        }}</span
+      >
+    </button>
+  </div>
+  <!-- kware end edit -->
+
+  <ng-content></ng-content>
+</div>

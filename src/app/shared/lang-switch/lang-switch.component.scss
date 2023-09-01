@@ -1,0 +1,22 @@
+.dropdown-toggle::after {
+  display:none;
+}
+
+.dropdown-toggle {
+  color: var(--ds-header-icon-color);
+
+  &:hover, &:focus {
+    color: var(--ds-header-icon-color-hover);
+  }
+}
+
+// kware start edit -- issue.7.6.002
+.lang-switcher-btn {
+  background: none;
+  border: none;
+  align-items: center;
+  justify-content: center;
+  color: #000 !important;
+}
+
+// kware end edit -- issue.7.6.002

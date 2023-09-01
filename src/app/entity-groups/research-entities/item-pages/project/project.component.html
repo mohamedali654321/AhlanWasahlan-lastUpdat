@@ -1,0 +1,280 @@
+<ds-themed-results-back-button *ngIf="showBackButton | async" [back]="back"></ds-themed-results-back-button>
+<div class="d-flex flex-row">
+  <ds-item-page-title-field [item]="object" class="mr-auto">
+  </ds-item-page-title-field>
+  <ds-dso-edit-menu></ds-dso-edit-menu>
+</div>
+<div class="row">
+  <div class="col-xs-12 col-md-4">
+
+
+    <ng-container *ngIf="!mediaViewer.image">
+      <ds-metadata-field-wrapper [hideIfNoTextContent]="false">
+        <ds-thumbnail
+          [thumbnail]="object?.thumbnail | async"
+          [defaultImage]="'assets/images/project-placeholder.svg'"
+          [alt]="'thumbnail.project.alt'"
+          [placeholder]="'thumbnail.project.placeholder'">
+        </ds-thumbnail>
+      </ds-metadata-field-wrapper>
+    </ng-container>
+    <ng-container *ngIf="mediaViewer.image">
+     <ds-entity-media-viewer [item]="object" [videoOptions]="mediaViewer.video"></ds-entity-media-viewer>
+    </ng-container>
+    <!-- <ds-themed-entity-item-page-file-section [item]="object"></ds-themed-entity-item-page-file-section> -->
+ 
+        <!-- mohamed start edit -->
+        <!-- <div class="desktop-mode">
+          <ds-item-files-section [item]="object"></ds-item-files-section>
+        </div>
+
+        <div class="mobile-mode">
+          <div *ngIf="!fileUrl">
+            <ds-item-files-section  [item]="object"></ds-item-files-section>
+          </div>
+          <ds-media-viewer-switcher [item]="object"></ds-media-viewer-switcher>
+        </div> -->
+        <!-- <ds-item-files-section [item]="object"></ds-item-files-section> -->
+    <!-- mohamed end edit -->
+    <div *ngIf="object?.firstMetadata('dc.rights')">
+      <a
+        href="{{object?.firstMetadata('dc.rights.uri')?.value}}/deed.{{locale}}"
+        rel="noopener" target="_blank" class="rights-statement-button
+        attribution mr-auto" data-v-4daef65b="" data-qa="provider name">
+        <span data-qa="rights statement" class="license-label d-inline-flex
+          align-items-center" data-v-4daef65b="">
+
+          <span class="license-label-text"
+          [innerHTML]="('search.filters.rights.' +
+          object?.firstMetadata('dc.rights')?.value | translate: {default:
+          object?.firstMetadata('dc.rights')?.value}
+          )">
+
+        </span>
+        </span>
+      </a>
+  
+  </div>
+  <br>
+    <!--<ds-generic-item-page-field [item]="object"-->
+      <!--[fields]="['project.identifier.status']"-->
+      <!--[label]="'project.page.status'">-->
+    <!--</ds-generic-item-page-field>-->
+
+
+    <ds-generic-item-page-field [item]="object"
+    [fields]="['project.acronym']"
+    [label]="'project.page.acronym'">
+  </ds-generic-item-page-field>
+
+    <ds-generic-item-page-field [item]="object"
+        [fields]="['project.startDate']"
+        [label]="'event.page.startDate'">
+      </ds-generic-item-page-field>
+
+      <ds-generic-item-page-field [item]="object"
+      [fields]="['project.startHijriDate']"
+      [label]="'event.page.startHijriDate'">
+    </ds-generic-item-page-field>
+
+    <ds-generic-item-page-field [item]="object"
+    [fields]="['project.endDate']"
+    [label]="'event.page.endDate'">
+  </ds-generic-item-page-field>
+
+
+      <ds-generic-item-page-field [item]="object"
+        [fields]="['project.endHijriDate']"
+        [label]="'event.page.endHijriDate'">
+      </ds-generic-item-page-field>
+
+
+    <ds-metadata-representation-list
+      [parentItem]="object"
+      [itemType]="'OrgUnit'"
+      [metadataFields]="['project.contributor.other']"
+      [label]="'project.page.contributor' | translate">
+    </ds-metadata-representation-list>
+
+    <ds-metadata-representation-list
+    [parentItem]="object"
+    [itemType]="'Person'"
+    [metadataFields]="['project.manger']"
+    [label]="'project.page.manger' | translate">
+  </ds-metadata-representation-list>
+
+  <ds-metadata-representation-list
+  [parentItem]="object"
+  [itemType]="'Person'"
+  [metadataFields]="['project.coordinator']"
+  [label]="'project.page.coordinator' | translate">
+</ds-metadata-representation-list>
+
+    <ds-metadata-representation-list
+    [parentItem]="object"
+    [itemType]="'Person'"
+    [metadataFields]="['project.funder.name']"
+    [label]="'project.page.funder' | translate">
+  </ds-metadata-representation-list>
+
+
+  <ds-metadata-representation-list
+  [parentItem]="object"
+  [itemType]="'Person'"
+  [metadataFields]="['project.funding.name']"
+  [label]="'project.page.funding' | translate">
+</ds-metadata-representation-list>
+
+    <ds-generic-item-page-field [item]="object"
+      [fields]="['project.identifier.funder']"
+      [label]="'project.page.funder'">
+    </ds-generic-item-page-field>
+    <ds-generic-item-page-field [item]="object"
+      [fields]="['dc.identifier']"
+      [label]="'project.page.id'">
+    </ds-generic-item-page-field>
+    <!--<ds-generic-item-page-field [item]="object"-->
+      <!--[fields]="['project.identifier.expectedcompletion']"-->
+      <!--[label]="'project.page.expectedcompletion'">-->
+    <!--</ds-generic-item-page-field>-->
+
+    <ds-generic-item-page-field [item]="object"
+[fields]="['dc.identifier.facebook']"
+[label]="'person.page.facebook'">
+</ds-generic-item-page-field>
+
+<ds-generic-item-page-field [item]="object"
+[fields]="['dc.identifier.wikipedia']"
+[label]="'person.page.wikipedia'">
+</ds-generic-item-page-field>
+
+<ds-generic-item-page-field [item]="object"
+[fields]="['dc.identifier.twitter']"
+[label]="'person.page.twitter'">
+</ds-generic-item-page-field>
+  </div>
+  <div class="col-xs-12 col-md-7">
+    <ds-media-viewer-switcher></ds-media-viewer-switcher>
+   <!-- mohamed start edit -->
+   <!-- <div class="desktop-mode">
+    <ds-media-viewer-switcher [item]="object"></ds-media-viewer-switcher>
+   </div> -->
+ 
+    <!-- mohamed end edit -->
+  
+    <ds-generic-item-page-field [item]="object"
+      [fields]="['dc.description']"
+      [label]="'project.page.description'">
+    </ds-generic-item-page-field>
+
+    <ds-generic-item-page-field [item]="object"
+    [fields]="['project.type']"
+    [label]="'item.page.type'">
+  </ds-generic-item-page-field>
+
+  <ds-generic-item-page-field [item]="object"
+  [fields]="['project.type.status']"
+  [label]="'item.page.status'">
+</ds-generic-item-page-field>
+
+
+<ds-generic-item-page-field [item]="object"
+[fields]="['project.fund.type']"
+[label]="'project.page.fundType'">
+</ds-generic-item-page-field>
+
+<ds-generic-item-page-field [item]="object"
+[fields]="['project.budget']"
+[label]="'project.page.budget'">
+</ds-generic-item-page-field>
+
+
+<ds-generic-item-page-field [item]="object"
+[fields]="['project.ownershipFundingInfo']"
+[label]="'project.page.ownershipFundingInfo'">
+</ds-generic-item-page-field>
+
+<ds-generic-item-page-field [item]="object"
+[fields]="['project.report']"
+[label]="'project.page.report'">
+</ds-generic-item-page-field>
+
+<ds-generic-item-page-field [item]="object"
+[fields]="['project.report.uri']"
+[label]="'project.page.reportUri'">
+</ds-generic-item-page-field>
+
+    <ds-generic-item-page-field [item]="object"
+      [fields]="['dc.subject']"
+      [label]="'project.page.keyword'">
+    </ds-generic-item-page-field>
+
+    <ds-related-items
+    [parentItem]="object"
+    [relationType]="'isOrgUnitOfProject'"
+    [label]="'relationships.isOrgUnitOf' | translate">
+  </ds-related-items>
+
+  <ds-related-items
+  [parentItem]="object"
+  [relationType]="'isAdministrationOfProject'"
+  [label]="'relationships.isAdministrationOf' | translate">
+</ds-related-items>
+
+<ds-related-items
+[parentItem]="object"
+[relationType]="'isSeriesOfProject'"
+[label]="'relationships.isSeriesOf' | translate">
+</ds-related-items>
+
+
+<ds-related-items
+[parentItem]="object"
+[relationType]="'isPlaceOfProject'"
+[label]="'relationships.isPlaceOf' | translate">
+</ds-related-items>
+
+
+<ds-related-items
+[parentItem]="object"
+[relationType]="'isSiteOfProject'"
+[label]="'relationships.isSiteOf' | translate">
+</ds-related-items>
+
+  <ds-related-items
+  [parentItem]="object"
+  [relationType]="'isEventOfProject'"
+  [label]="'relationships.isEventOf' | translate">
+</ds-related-items>
+
+
+<ds-related-items
+[parentItem]="object"
+[relationType]="'isActivityOfProject'"
+[label]="'relationships.isActivityOf' | translate">
+</ds-related-items>
+
+<ds-related-items
+[parentItem]="object"
+[relationType]="'isEraOfProject'"
+[label]="'relationships.isEraOf' | translate">
+</ds-related-items>
+
+    <ds-related-items
+      [parentItem]="object"
+      [relationType]="'isPersonOfProject'"
+      [label]="'relationships.isPersonOf' | translate">
+    </ds-related-items>
+    <ds-related-items
+      [parentItem]="object"
+      [relationType]="'isPublicationOfProject'"
+      [label]="'relationships.isPublicationOf' | translate">
+    </ds-related-items>
+
+    <div>
+      <a class="btn btn-outline-primary" [routerLink]="[itemPageRoute + '/full']">
+        {{"item.page.link.full" | translate}}
+      </a>
+    </div>
+  </div>
+</div>

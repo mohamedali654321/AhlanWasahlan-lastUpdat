@@ -1,0 +1,68 @@
+<ng-container #mediaViewerId>
+  <ds-media-viewer-toolbar
+    [closeViewer]="closeViewer"
+    [openFullscreen]="openFullscreen"
+    [fileURL]="fileURL"
+    [fileFormat]="fileFormat"
+    [fileName]="fileName"
+    [item]="item"
+  ></ds-media-viewer-toolbar>
+  <div class="media-viewer" *ngIf="fileURL">
+    <ng2-pdfjs-viewer
+      *ngIf="fileFormat === 'application/pdf'"
+      #pdfJsViewer
+      [pdfSrc]="fileURL"
+      [locale]="localeCode"
+      [openFile]="false"
+      [download]="false"
+      [print]="false"
+    ></ng2-pdfjs-viewer>
+
+    <ds-video-player
+      *ngIf="fileFormat.startsWith('video') || fileFormat.startsWith('audio')"
+      [src]="fileURL"
+      [options]="{
+        autoplay: true,
+        controls: true,
+        sources: [{ src: fileURL, type: fileFormat }]
+      }"
+    ></ds-video-player>
+
+    <div *ngIf="fileFormat.startsWith('image')">
+      <img
+        id="image"
+        src="{{ fileURL }}"
+        alt="image not fount"
+        width="100%"
+        height="650px"
+        loading="eager"
+      />
+    </div>
+
+    <ds-document-viewer
+      *ngIf="msFilesFormats.includes(fileFormat)"
+      [docURL]="fileURL"
+      [locale]="localeCode"
+    ></ds-document-viewer>
+
+    <div
+      class="downlaod-only"
+      *ngIf="
+        !msFilesFormats.includes(fileFormat) &&
+        !fileFormat.startsWith('image') &&
+        !fileFormat.startsWith('video') &&
+        fileFormat !== 'application/pdf'
+      "
+    >
+      <span>{{
+        "fileSection.viewerSwitcher.downloadOnly.message" | translate
+      }}</span>
+      <button class="viewer-toolbar-btn" (click)="downloadOtherFileFormat()">
+        <em class="fa fa-download"></em>
+        <span>{{
+          "fileSection.viewerSwitcher.downloadOnly.btn" | translate
+        }}</span>
+      </button>
+    </div>
+  </div>
+</ng-container>

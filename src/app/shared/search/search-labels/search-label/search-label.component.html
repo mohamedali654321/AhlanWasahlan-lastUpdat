@@ -1,0 +1,6 @@
+<a class="badge badge-primary mr-1 mb-1 text-capitalize"
+   [routerLink]="searchLink"
+   [queryParams]="(removeParameters | async)" queryParamsHandling="merge">
+   {{('search.filters.applied.' + key) | translate}}: {{'search.filters.' + (filterName | kwareTranslate) + '.' + (value.includes(',equals') ? value.split(',equals')[0] : (value.includes(',equals') ? value.split(',query')[0] : value))| KwareCommaConvert | kwareTranslate | translate: {default: normalizeFilterValue((value.includes(',equals') ? value.split(',equals')[0] : (value.includes(',equals') ? value.split(',query')[0] : value)) | KwareCommaConvert | kwareTranslate)} }}
+    <span> ×</span>
+</a>
